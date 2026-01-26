@@ -66,6 +66,12 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Debug — test TCP connectivity to EC2:22
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y netcat-openbsd || sudo apt-get install -y netcat
+        nc -vz "${{ secrets.EC2_HOST }}" 22 || true
+
     - name: Deploy to EC2 via SSH
       uses: appleboy/ssh-action@master
       with:
@@ -81,4 +87,4 @@ jobs:
           docker stop demo-app || true
           docker rm demo-app || true
 
-          docker run -d --name demo-app -p 80:80 ${{steps.login-ecr-outputs.registry}}/${{env.ECR_REPOSITORY}}:${{needs.build-and-push.outputs.image_tag}}
+          docker run -d --name demo-app -p 80:80 ${{steps.login-ecr.outputs.registry}}/${{env.ECR_REPOSITORY}}:${{needs.build-and-push.outputs.image_tag}}
