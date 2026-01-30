@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
       </head>
       <body>
         <div class="card">
-          <h1>DevOps Workflow Demo</h1>
+          <h1>DevOps Workflow Demo by Chetan Khulbe</h1>
           <p>This Node.js app was deployed via GitHub Actions!</p>
           <hr>
           <p>Status: <strong>Running on EC2</strong></p>
